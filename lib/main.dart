@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:untitled/auth/login.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,17 +17,6 @@ class MyApp extends StatelessWidget {
         color: Colors.blue,
         debugShowCheckedModeBanner: false,
         title: 'Learn Firebase',
-        home: Scaffold(
-          appBar: AppBar(
-            backgroundColor: Colors.blue,
-            title: Text(
-              'Firebase',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-          body: ListView(
-            children: [],
-          ),
-        ));
+        home: Login());
   }
 }
