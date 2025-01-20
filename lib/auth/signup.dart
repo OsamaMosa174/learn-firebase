@@ -84,18 +84,11 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10, bottom: 20),
-                  alignment: Alignment.topRight,
-                  child: const Text(
-                    "Forgot Password ?",
-                    style: TextStyle(
-                      fontSize: 14,
-                    ),
-                  ),
-                ),
               ],
             ),
+          ),
+          SizedBox(
+            height: 10,
           ),
           CustomButtonAuth(
               title: "SignUp",
@@ -107,7 +100,20 @@ class _SignUpState extends State<SignUp> {
                       email: email.text,
                       password: password.text,
                     );
-                    Navigator.of(context).pushReplacementNamed("homepage");
+                    FirebaseAuth.instance.currentUser!.sendEmailVerification();
+
+                    AwesomeDialog(
+                      context: context,
+                      dialogType: DialogType.success,
+                      animType: AnimType.rightSlide,
+                      title: 'Success',
+                      desc:
+                          'Your Email has been careated successfuly Please validate it.',
+                      btnOkOnPress: () {
+                        Navigator.of(context).pushReplacementNamed("login");
+                      },
+                    )..show();
+                    ;
                   } on FirebaseAuthException catch (e) {
                     if (e.code == 'weak-password') {
                       print('The password provided is too weak.');
@@ -117,8 +123,6 @@ class _SignUpState extends State<SignUp> {
                         animType: AnimType.rightSlide,
                         title: 'error',
                         desc: 'The password provided is too weak.',
-                        btnCancelOnPress: () {},
-                        btnOkOnPress: () {},
                       )..show();
                     } else if (e.code == 'email-already-in-use') {
                       print('The account already exists for that email.');
@@ -128,8 +132,6 @@ class _SignUpState extends State<SignUp> {
                         animType: AnimType.rightSlide,
                         title: 'error',
                         desc: 'The account already exists for that email.',
-                        btnCancelOnPress: () {},
-                        btnOkOnPress: () {},
                       )..show();
                     } else {
                       print("--------------------");
@@ -141,8 +143,6 @@ class _SignUpState extends State<SignUp> {
                         animType: AnimType.rightSlide,
                         title: 'error',
                         desc: 'invalid-email',
-                        btnCancelOnPress: () {},
-                        btnOkOnPress: () {},
                       )..show();
                     }
                   } catch (e) {
@@ -155,8 +155,6 @@ class _SignUpState extends State<SignUp> {
                     animType: AnimType.rightSlide,
                     title: 'error',
                     desc: 'Not valide',
-                    btnCancelOnPress: () {},
-                    btnOkOnPress: () {},
                   )..show();
                 }
               }),
@@ -164,7 +162,7 @@ class _SignUpState extends State<SignUp> {
           Container(height: 20),
           InkWell(
             onTap: () {
-              Navigator.of(context).pushReplacementNamed("homepage");
+              Navigator.of(context).pushReplacementNamed("login");
             },
             child: const Center(
               child: Text.rich(TextSpan(children: [
